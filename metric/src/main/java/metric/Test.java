@@ -12,7 +12,14 @@ public class Test {
 			Shakesphere.addBook(hamlet);
 			Shakesphere.addBook(othello);
 			Shakesphere.populateWordFrequency();
-			System.out.println(Shakesphere.generateRandomWord());
+			Shakesphere.getWordsperSentence();
+//			System.out.println(Shakesphere.generateRandomWord());
+			for(int i = 0; i < 2; ++i) {
+				System.out.println(Shakesphere.generateRandomSentence());
+			}
+			
+			Shakesphere.populateBigrams();
+			System.out.println("Done");
 		}
 		catch(Exception e) {
 			e.printStackTrace();
