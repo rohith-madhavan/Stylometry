@@ -20,49 +20,11 @@ public class Metric {
     ArrayList<String> sentence;
     ArrayList<String> paragraph;
 
-    public void populateWords() {
-
+    public Metric() {
+        bookOne = new Book();
     }
-
-    public HashMap<String, Integer> topNWords(int n) {
-        return null;
-    }
-
-    public int avgLetters() {
-        return 0;
-    }
-
-    public int avgWords() {
-        return 0;
-    }
-
-    public int avgSentence() {
-        return 0;
-    }
-package metric;
-
-import com.sun.media.sound.InvalidFormatException;
-import opennlp.tools.sentdetect.SentenceDetectorME;
-import opennlp.tools.sentdetect.SentenceModel;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-/**
- * Created by vedsharma on 08-Aug-16.
- */
-
-public class Metric {
-    Book bookOne;
-    HashMap<String,Integer> words;
-    ArrayList<String> sentence;
-    ArrayList<String> paragraph;
 
     public void populateWords() {
-
     }
 
     public void populateSentence() {
@@ -88,43 +50,6 @@ public class Metric {
     public HashMap<String, Integer> topNWords(int n) {
         return null;
     }
-
-//    public static void SentenceDetect() throws InvalidFormatException,
-//            IOException {
-//        String paragraph = "Hi. How are you? This is Mike.";
-//
-//        // always start with a model, a model is learned from training data
-//        InputStream is = new FileInputStream("en-sent.bin");
-//        SentenceModel model = new SentenceModel(is);
-//        SentenceDetectorME sdetector = new SentenceDetectorME(model);
-//
-//        String sentences[] = sdetector.sentDetect(paragraph);
-//
-//        System.out.println(sentences[0]);
-//        System.out.println(sentences[1]);
-//        is.close();
-//    }
-}
-
-
-
-
-//
-//    public ArrayList<String> getWords(Book b) {
-//        return null;
-//    }
-//
-//    public HashMap<String,Integer> getWordsAndFrequency(Book b) {
-//        return null;
-//    }
-//
-//    public int getSentenceLength(String sentence) {
-//        return 0;
-//    }
-//
-//    public int getNoOfSentences(String content) {
-//
-//    }
 
 //    public static void SentenceDetect() throws InvalidFormatException,
 //            IOException {
