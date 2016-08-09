@@ -79,13 +79,31 @@ public class Author {
 		}
 		
 	}
+	
+	public void testBigrams() {
+		String r = generateRandomWord();
+		System.out.println("The word is: " + r);
+		 
+		HashMap<String, Integer> x = bigramFrequency.get(r);
+		for(String s: x.keySet()) {
+			System.out.println(s);
+		}
+	}
 
 
 	public String generateRandomWord() {
+		
 		Random random = new Random();
-	    List<String> keys = new ArrayList<String>(wordFrequency.keySet());
-	    String  randomKey = keys.get(random.nextInt(keys.size()));
-	    return randomKey;
+		List<String> keys = new ArrayList<String>(wordFrequency.keySet());
+		String  randomKey = keys.get(random.nextInt(keys.size()));
+		return randomKey;
+	}
+	
+	public String generateRandomWord(HashMap<String, Integer> miniList) {
+		Random random = new Random();
+		List<String> keys = new ArrayList<String>(miniList.keySet());
+		String  randomKey = keys.get(random.nextInt(keys.size()));
+		return randomKey;
 	}
 
 	public String generateFrequentWord() {
@@ -113,7 +131,7 @@ public class Author {
 	public String generateRandomSentence() {
 		String s = "";
 		for(int i = 0; i < numWordsPerSentence; ++i) {
-			s += " " + generateRandomWord();
+			s += " " + generateFrequentWord();
 		}
 		return s+".";
 	}

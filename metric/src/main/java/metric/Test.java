@@ -14,11 +14,12 @@ public class Test {
 			Shakesphere.populateWordFrequency();
 			Shakesphere.getWordsperSentence();
 //			System.out.println(Shakesphere.generateRandomWord());
-			for(int i = 0; i < 2; ++i) {
+			for(int i = 0; i < 3; ++i) {
 				System.out.println(Shakesphere.generateRandomSentence());
 			}
 			
 			Shakesphere.populateBigrams();
+			Shakesphere.testBigrams();
 			System.out.println("Done");
 		}
 		catch(Exception e) {
