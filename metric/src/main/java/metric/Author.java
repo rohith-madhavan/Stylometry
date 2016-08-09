@@ -10,6 +10,9 @@ public class Author {
 
 	HashMap<String, Integer> wordFrequency = new HashMap<String, Integer>();
 	HashMap<String, HashMap<String,Integer>> bigramFrequency = new HashMap<String, HashMap<String,Integer>>();
+	HashMap<String, HashMap<String, Integer>> trigramFrequency = new HashMap<String, HashMap<String, Integer>>();
+	HashMap<String,Integer> beginWord = new HashMap<String,Integer>();
+	HashMap<String,Integer> endWord = new HashMap<String,Integer>();
 
 
 	public Author() {
@@ -25,20 +28,6 @@ public class Author {
 		books.add(book);
 	}
 
-	
-	public void populateWordFrequency() {
-
-		for(Book b : books) {
-			for(String s: b.words) {
-				if(wordFrequency.containsKey(s))
-					(wordFrequency).put(s,wordFrequency.get(s)+1);
-				else
-					wordFrequency.put(s,1);
-			}
-		}
-		System.out.println("Done");
-	}
-	
 	public void getWordsperSentence(){
 		int totalNoOfWords = 0;
 		int avgNoOfWords = 0;
@@ -54,8 +43,46 @@ public class Author {
 		numWordsPerSentence =  avgNoOfWords/books.size();
 	}
 
+	public void populateWordFrequency() {
+
+		for(Book b : books) {
+			for(String s: b.words) {
+				if(wordFrequency.containsKey(s))
+					(wordFrequency).put(s,wordFrequency.get(s)+1);
+				else
+					wordFrequency.put(s,1);
+			}
+		}
+
+	}
+
+	public void populateBeginWord(){
+		for(Book b:books){
+			for(String s:b.sentences){
+				String[] words = s.split(" ");
+				if(beginWord.containsKey(words[0]))
+					beginWord.put(words[0],beginWord.get(words[0])+1);
+				else
+					beginWord.put(words[0],1);
+			}
+		}
+	}
+	
+	public void populateEndWord(){
+		for(Book b:books){
+			for(String s:b.sentences){
+				String[] words = s.split(" ");
+				int last = words.length-1;
+				if(endWord.containsKey(words[last]))
+					endWord.put(words[last], endWord.get(words[last])+1);
+					else
+						endWord.put(words[last],1);
+			}
+		}
+	}
+
 	public void populateBigrams() {
-		
+
 		for(Book b:books) {
 			for(String s: b.sentences) {
 				String[] words = s.split(" ");
@@ -77,28 +104,17 @@ public class Author {
 				}
 			}
 		}
-		
-	}
-	
-	public void testBigrams() {
-		String r = generateRandomWord();
-		System.out.println("The word is: " + r);
-		 
-		HashMap<String, Integer> x = bigramFrequency.get(r);
-		for(String s: x.keySet()) {
-			System.out.println(s);
-		}
-	}
 
+	}
 
 	public String generateRandomWord() {
-		
+
 		Random random = new Random();
 		List<String> keys = new ArrayList<String>(wordFrequency.keySet());
 		String  randomKey = keys.get(random.nextInt(keys.size()));
 		return randomKey;
 	}
-	
+
 	public String generateRandomWord(HashMap<String, Integer> miniList) {
 		Random random = new Random();
 		List<String> keys = new ArrayList<String>(miniList.keySet());
@@ -124,16 +140,71 @@ public class Author {
 		return keys.get(randomIndex);
 	}
 
-	public String generateBigramWord(String prevWord) {
-		return "";
+	public String generateFrequentWord(HashMap<String, Integer> x) {
+		List<String> keys = new ArrayList<String>(x.keySet());
+		double totalFreq = 0.0d;
+		for (String s : keys){
+			totalFreq += x.get(s);
+		}
+		int randomIndex = -1;
+		double random = Math.random() * totalFreq;
+		for (int i = 0; i < keys.size(); ++i){
+			random -= x.get(keys.get(i));
+			if (random <= 0.0d){
+				randomIndex = i;
+				break;
+			}
+		}
+		return keys.get(randomIndex);
 	}
-	
+
+	public String generateBigramWord(String prevWord) {
+		if(bigramFrequency.get(prevWord) != null) {
+			HashMap<String,Integer> listWords = bigramFrequency.get(prevWord);
+
+			return generateFrequentWord(listWords);
+
+		}
+		else
+			return "";
+	}
+
 	public String generateRandomSentence() {
-		String s = "";
-		for(int i = 0; i < numWordsPerSentence; ++i) {
+		String s = generateFrequentWord(beginWord);
+		for(int i = 1; i < numWordsPerSentence - 1; ++i) {
 			s += " " + generateFrequentWord();
 		}
+		s += " " + generateFrequentWord(endWord);
 		return s+".";
 	}
+
+	public String generateBigramSentence() {
+		String s = generateFrequentWord(beginWord);
+
+		String prevWord = s;
+
+		for(int i = 1; i < numWordsPerSentence - 1; ++i) {
+			prevWord = generateBigramWord(prevWord);
+			s += " " + prevWord;
+		}
+		s += " " + generateFrequentWord(endWord);
+		return s+".";
+
+	}
+
+
+	public void testBigrams() {
+		//		String r = generateRandomWord();
+		String r = "the";
+		System.out.println("The word is: " + r);
+
+		HashMap<String, Integer> x = bigramFrequency.get(r);
+		for(String s: x.keySet()) {
+			System.out.println(s + "," + x.get(s));
+		}
+		System.out.println("---------------");
+		System.out.println(generateBigramWord(r));
+	}
+
 
 }
